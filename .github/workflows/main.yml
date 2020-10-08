@@ -1,0 +1,30 @@
+name: deploy gh-pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build and deploy gh-pages
+    env:
+      MY_SECRET: ${{secrets.commit_secret}}
+      USER_NAME: githubaction
+      USER_EMAIL: githubaction@fake.com
+      PUBLISH_DIR: ./build
+      GH_PAGES_BRANCH: gh-pages-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Commit files
+        run: |
+          cd $PUBLISH_DIR
+          git init
+          git config --local user.name $USER_NAME
+          git config --local user.email $USER_EMAIL
+          git status
+          git remote add origin https://$MY_SECRET@github.com/$GITHUB_REPOSITORY.git
+          git checkout -b $GH_PAGES_BRANCH
+          git add --all
+          git commit -m "deploy to GitHub pages"
+          git push origin $GH_PAGES_BRANCH -f
+          echo 🤘 deploy $GH_PAGES_BRANCH complete.
