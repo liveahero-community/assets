@@ -2,9 +2,15 @@ Bundle Extractor Tool: [UtinyRipper](https://github.com/mafaca/UtinyRipper)
 
 ---
 
-## Tinify image
+## Download images from official website
 
 ```shell
 yarn install
-ts-node ./src/index.ts
+yarn start
+```
+
+## Tinify images
+
+```shell
+yarn download:illustrations
 ```

@@ -1,17 +1,14 @@
 // Node modules.
-import { mkdirSync, unlinkSync, copyFileSync } from 'fs';
+import { mkdirSync, unlinkSync } from 'fs';
 import { join } from 'path';
 import tinify from 'tinify';
 // Local modules.
 import { getDirectoriesDeeply, getFilesDeeply } from './utils/file-expert';
 
-tinify.key = process.env.TINYPNG_KEY;
+tinify.key = process.env.TINYPNG_KEY!;
 
 const sourceDir = 'raw';
 const targetDir = 'build';
-const keeps = [
-  '.nojekyll',
-];
 
 // Make dirs.
 getDirectoriesDeeply(sourceDir).forEach((dir) => {
@@ -37,12 +34,6 @@ removes.forEach((filePath) => {
   const targetFilePath = join(targetDir, filePath);
   unlinkSync(targetFilePath);
   console.log(`remove: ${targetFilePath}`);
-});
-
-keeps.forEach((keep) => {
-  const outputFilePath = join(targetDir, keep);
-  copyFileSync(keep, outputFilePath);
-  console.log(`copy: ${keep} to ${outputFilePath}`);
 });
 
 console.log(`Total added: ${adds.length} ; total removed: ${removes.length}`);
